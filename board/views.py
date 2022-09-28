@@ -2,7 +2,7 @@ import datetime
 
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.db import connections
 from .models import *
 from .forms import *
@@ -106,7 +106,20 @@ def post_delete(request, school_id, board_id, post_id):
     return redirect('post', school_id=school_id, board_id=board_id)
 
 
-@login_required
+@login_required()
+def post_edit(request, school_id, board_id, post_id):
+    question = get_object_or_404(Post, pk=post_id)
+    if request.method == "POST":
+        cursor = connections['default'].cursor()
+        cursor.execute('UPDATE board_post SET title = %s, content = %s WHERE id = %s',
+                       [request.POST.get('title'), request.POST.get('content'), post_id])
+        cursor.close()
+        return redirect('post_detail', school_id=school_id, board_id=board_id, post_id=post_id)
+    else:
+        context = {'question': question, 'school_id': school_id, 'board_id': board_id}
+        return render(request, 'board/post_edit.html', context)
+
+
 def comment_create(request, school_id, board_id, post_id):
     if request.method == "POST":
         content_get = request.POST.get('content')

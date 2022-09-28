@@ -29,6 +29,11 @@
                 onclick="location.href = '{% url 'post_delete' school_id board_id post_data.id %}'">글 삭제
         </button>
     {% endif %}
+    {% if post_data.author == user %}
+        <button type="button" class="btn btn-dark"
+                onclick="location.href = '{% url 'post_edit' school_id board_id post_data.id %}'">글 수정
+        </button>
+    {% endif %}
     <h3>Comment</h3>
     <form action="{% url 'comment_create' school_id board_id post_data.id %}" method="post" class="my-3">
         {% csrf_token %}
