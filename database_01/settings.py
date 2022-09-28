@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-p4(brtars9wrt^n*bh5zs5@wdxcfh(21)c03m_8hh71am*ajs&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['lowc.shop', '*']
 
 # Application definition
 
