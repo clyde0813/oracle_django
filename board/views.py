@@ -100,7 +100,8 @@ def post_delete(request, school_id, board_id, post_id):
     post_data = Post.objects.filter(id=post_id).first()
     if post_data.author_id == request.user.id:
         cursor = connections['default'].cursor()
-        cursor.execute('DELETE FROM board_post WHERE id = %s', [post_id])
+        cursor.execute('DELETE FROM board_comment WHERE post_id = %s', [post_id])
+        cursor.execute('DELETE FROM board_post WHERE id = %s;', [post_id])
         cursor.close()
     return redirect('post', school_id=school_id, board_id=board_id)
 

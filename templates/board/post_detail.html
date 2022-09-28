@@ -24,6 +24,11 @@
     <p class="text-break">{{ post_data.author }}</p>
     <h3>Content</h3>
     <p class="text-break">{{ post_data.content }}</p>
+    {% if post_data.author == user %}
+        <button type="button" class="btn btn-dark"
+                onclick="location.href = '{% url 'post_delete' school_id board_id post_data.id %}'">글 삭제
+        </button>
+    {% endif %}
     <h3>Comment</h3>
     <form action="{% url 'comment_create' school_id board_id post_data.id %}" method="post" class="my-3">
         {% csrf_token %}
@@ -40,11 +45,5 @@
         {% endfor %}
     {% endif %}
 </div>
-{% if post_data.author == user %}
-    <button type="button" class="btn btn-dark"
-            onclick="location.href = '{% url 'post_delete' school_id board_id post_data.id %}'"
-            style="margin-top: 3rem; margin-left: 80%">글 삭제
-    </button>
-{% endif %}
 </body>
 </html>
